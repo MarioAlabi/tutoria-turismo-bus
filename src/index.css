@@ -1,0 +1,102 @@
+/* ====== FULL BLEED + CENTRADO PERFECTO ====== */
+
+/* Elimina cualquier espacio alrededor del viewport */
+html, body, #root { height: 100%; }
+body { margin: 0; }
+
+/* La landing cubre 100% y no deja márgenes - MANTIENE TU DISEÑO ORIGINAL */
+.landing {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: grid;
+  place-items: center;
+  justify-items: center;
+  text-align: center;
+  overflow-y: auto;    /* Permite scroll vertical */
+  overflow-x: hidden;  /* Oculta scroll horizontal */
+  background: none;
+  border-radius: 0;
+}
+
+/* Capa de fondo que sí cubre de borde a borde */
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.18), transparent),
+    linear-gradient(135deg, #f97316, #ea580c);
+}
+
+/* Card centrada - CON CONTENIDO EXTRA PARA SCROLL */
+.landing-card {
+  width: min(560px, 92vw);
+  margin: 0;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+/* ESTO ES LO NUEVO: contenido extra invisible para crear scroll */
+.landing-card::after {
+  content: "";
+  display: block;
+  height: 80vh;  /* Altura extra invisible */
+  width: 1px;
+  margin-top: 50px;
+}
+
+/* Animación de flotar (se mantiene igual) */
+@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+.landing-logo {
+  width: 96px; height: 96px;
+  margin: 0 auto 18px;
+  border-radius: 9999px;
+  background: #fff;
+  display: grid; place-items: center;
+  box-shadow: var(--shadow);
+  animation: bob 2.6s ease-in-out infinite;
+}
+
+/* Título en blanco y centrado */
+.landing-title {
+  color: #fff;
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 6px 0 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+/* Subtítulo y botón igual que antes */
+.landing-subtitle { font-size: clamp(14px, 2.4vw, 18px); opacity:.95; margin:0 0 26px; }
+.landing-btn { appearance:none; border:0; padding:12px 22px; border-radius:9999px; font-weight:700; background:#fff; color:#ef6c17; box-shadow:var(--shadow); cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; }
+.landing-btn:hover { transform: translateY(-2px); }
+.landing-btn:active { transform: translateY(0); opacity:.9; }
+
+/* Mejorar el scroll en mobile */
+.landing {
+  -webkit-overflow-scrolling: touch;
+}
+/* ==== SCROLL FIX GLOBAL (no rompe tu UI) ==== */
+html, body {
+  height: auto !important;   /* evita “altura fija” que mata el scroll */
+  min-height: 100%;
+  overflow-y: auto;          /* permite desplazamiento vertical */
+}
+
+body { 
+  margin: 0; 
+  -webkit-overflow-scrolling: touch; /* suave en iOS */
+}
+
+/* Asegura que el root pueda crecer */
+#root { min-height: 100%; }
+
+/* Contenedores nunca recorten por accidente */
+.card, .app, .quiz-container { overflow: visible; }
